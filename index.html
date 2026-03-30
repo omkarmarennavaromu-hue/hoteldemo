@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Éclat Royale | Ultra-Luxury Hotel Experience</title>
+    <!-- Google Fonts: Elegant Serif + Clean Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0a0c12;
+            color: #e6e9f0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, .serif-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #d4af7a;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: #d4af7a;
+            margin: 12px auto 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* premium glassmorphism base */
+        .glass-card {
+            background: rgba(20, 22, 32, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 122, 0.25);
+            border-radius: 28px;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* ----- HERO SECTION (full screen + particles) ----- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url('https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        /* particle canvas */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 900px;
+            padding: 1rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+        .hero-content h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-bottom: 1rem;
+        }
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            color: #f0ede8;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 38px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            backdrop-filter: blur(4px);
+        }
+        .btn-primary {
+            background: #d4af7a;
+            color: #0a0c12;
+            border: none;
+            box-shadow: 0 5px 15px rgba(212,175,122,0.3);
+        }
+        .btn-primary:hover {
+            background: #c5a159;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(212,175,122,0.4);
+        }
+        .btn-outline {
+            border: 1px solid #d4af7a;
+            color: #fff;
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: rgba(212,175,122,0.2);
+            transform: translateY(-3px);
+            border-color: #e6c38a;
+        }
+
+        /* sections base */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        .section-bg-alt {
+            background: #0f1119;
+        }
+
+        /* about */
+        .about-grid {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .about-text {
+            flex: 1;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .about-text p {
+            margin-bottom: 1.2rem;
+            color: #cfd4e3;
+        }
+        .about-img {
+            flex: 1;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+        }
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        .about-img:hover img { transform: scale(1.02); }
+
+        /* rooms grid */
+        .rooms-grid, .facilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .room-card, .facility-card {
+            background: rgba(18, 20, 29, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 1.5rem;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(212,175,122,0.2);
+        }
+        .room-card:hover, .facility-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 25px 35px -15px rgba(0,0,0,0.6);
+            border-color: rgba(212,175,122,0.6);
+        }
+        .room-card img, .facility-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+        .room-card h3, .facility-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #f2e8cf;
+        }
+        .price {
+            font-size: 1.3rem;
+            color: #d4af7a;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        .features {
+            font-size: 0.9rem;
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .features li {
+            margin-bottom: 0.3rem;
+        }
+        .features i {
+            color: #d4af7a;
+            margin-right: 8px;
+        }
+
+        /* gallery grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+        .gallery-item {
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: transform 0.5s ease, box-shadow 0.3s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.07);
+        }
+        .gallery-item:hover {
+            box-shadow: 0 0 18px rgba(212,175,122,0.5);
+        }
+
+        /* testimonials carousel */
+        .testimonials {
+            background: linear-gradient(145deg, #0a0c12, #11131e);
+        }
+        .carousel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            padding: 1rem 0;
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .testimonial-card {
+            flex: 0 0 100%;
+            background: rgba(30, 32, 45, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(212,175,122,0.3);
+            margin: 0 1rem;
+        }
+        .testimonial-card i {
+            font-size: 2.5rem;
+            color: #d4af7a;
+            margin-bottom: 1rem;
+        }
+        .testimonial-card p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        .guest-name {
+            font-weight: 600;
+            margin-top: 1rem;
+            color: #d4af7a;
+        }
+        .carousel-btn {
+            background: rgba(212,175,122,0.3);
+            border: none;
+            font-size: 1.8rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 0 0.5rem;
+        }
+        .carousel-btn:hover {
+            background: #d4af7a;
+            color: #0a0c12;
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* footer */
+        footer {
+            background: #07090f;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(212,175,122,0.2);
+        }
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        .footer-col h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #d4af7a;
+        }
+        .footer-col p, .footer-col a {
+            color: #b9bfda;
+            text-decoration: none;
+            line-height: 1.8;
+        }
+        .social-links a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #d4af7a;
+            transition: 0.2s;
+        }
+        .social-links a:hover { color: #fff; transform: translateY(-3px); display: inline-block;}
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(212,175,122,0.15);
+            font-size: 0.9rem;
+        }
+
+        /* animations + scroll reveal */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.9s cubic-bezier(0.2, 0.9, 0.4, 1), transform 0.9s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* responsiveness */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-content p { font-size: 1rem; }
+            h2 { font-size: 2.3rem; }
+            .container { padding: 0 1.5rem; }
+            section { padding: 70px 0; }
+            .about-grid { flex-direction: column; }
+            .btn { padding: 10px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section with Particle Canvas -->
+<section class="hero" id="home">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-content">
+        <h1>Éclat Royale</h1>
+        <p>Welcome to Éclat Royale – Luxury & Comfort Redefined.</p>
+        <div class="hero-buttons">
+            <a href="#rooms" class="btn btn-primary">Explore Rooms</a>
+            <a href="#contact" class="btn btn-outline">Book Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+    <div class="container">
+        <h2>Our Legacy</h2>
+        <div class="about-grid fade-up">
+            <div class="about-text">
+                <p>Founded in 1924, Éclat Royale stands as an icon of timeless elegance. Nestled in the heart of the city’s cultural district, we’ve perfected the art of hospitality, earning the "Best Luxury Hotel" award 7 consecutive years.</p>
+                <p>Every detail, from hand-picked marble lobbies to Michelin-starred cuisine, reflects our commitment to unforgettable experiences. Our signature hospitality blends heritage charm with modern finesse.</p>
+                <p><i class="fas fa-award" style="color:#d4af7a;"></i> Winner: World’s Leading Boutique Hotel 2025</p>
+            </div>
+            <div class="about-img">
+                <img src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Hotel Lobby Luxury">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Rooms Section -->
+<section id="rooms" class="section-bg-alt">
+    <div class="container">
+        <h2>Exquisite Accommodations</h2>
+        <div class="rooms-grid" id="rooms-grid">
+            <!-- Cards will be populated via JS but also static for reliability: -->
+        </div>
+    </div>
+</section>
+
+<!-- Facilities & Amenities -->
+<section id="facilities">
+    <div class="container">
+        <h2>World-Class Amenities</h2>
+        <div class="facilities-grid" id="facilities-grid"></div>
+    </div>
+</section>
+
+<!-- Gallery Section -->
+<section class="section-bg-alt" id="gallery">
+    <div class="container">
+        <h2>Visual Journey</h2>
+        <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+</section>
+
+<!-- Testimonials Carousel -->
+<section class="testimonials" id="testimonials">
+    <div class="container">
+        <h2>Guest Whispers</h2>
+        <div class="carousel-container">
+            <div class="carousel-track" id="testimonialTrack"></div>
+        </div>
+        <div class="carousel-controls">
+            <button class="carousel-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <button class="carousel-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<!-- Contact / Footer -->
+<footer id="contact">
+    <div class="container">
+        <div class="footer-content fade-up">
+            <div class="footer-col">
+                <h4>Éclat Royale</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 1001 Grand Avenue, Beverly Hills, CA 90210</p>
+                <p><i class="fas fa-phone"></i> +1 (310) 555-8787</p>
+                <p><i class="fas fa-envelope"></i> concierge@eclatroyale.com</p>
+            </div>
+            <div class="footer-col">
+                <h4>Reservations</h4>
+                <p>24/7 Concierge</p>
+                <p><a href="#" class="btn btn-primary" style="padding: 8px 20px; font-size:0.9rem;">Book Now</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Designed by Omkar | 2026 — Where luxury meets serenity</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // ------ hotel-related images (only hotel imagery) ------
+    const roomData = [
+        { name: "Deluxe King", features: "City View • Marble Bath • 45m²", price: "$420/night", img: "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Grand Suite", features: "Panoramic View • Living Area • Jacuzzi", price: "$780/night", img: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Penthouse Royale", features: "Private Terrace • Butler Service • 120m²", price: "$1450/night", img: "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=800" },
+        { name: "Executive Standard", features: "Elegant Design • Rain Shower • Work Desk", price: "$290/night", img: "https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=800" }
+    ];
+    const facilitiesData = [
+        { name: "Infinity Pool", icon: "fas fa-swimming-pool", img: "https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg?auto=compress&cs=tinysrgb&w=800", desc: "Skyline views & heated jacuzzi" },
+        { name: "Serenity Spa", icon: "fas fa-spa", img: "https://images.pexels.com/photos/2253831/pexels-photo-2253831.jpeg?auto=compress&cs=tinysrgb&w=800", desc: "Holistic treatments" },
+        { name: "State-of-Art Gym", icon: "fas fa-dumbbell", img: "https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=800", desc: "Personal trainer" },
+        { name: "Aurora Restaurant", icon: "fas fa-utensils", img: "https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=800", desc: "Michelin-starred cuisine" },
+        { name: "Grand Conference Hall", icon: "fas fa-chalkboard", img: "https://images.pexels.com/photos/260689/pexels-photo-260689.jpeg?auto=compress&cs=tinysrgb&w=800", desc: "Events up to 300 guests" }
+    ];
+    const galleryImages = [
+        "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/261101/pexels-photo-261101.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/2253831/pexels-photo-2253831.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ];
+    const testimonialsData = [
+        { text: "An absolute sanctuary. The attention to detail, gold-leaf ceilings, and staff warmth made our honeymoon unforgettable.", name: "— Sophia & James, NYC" },
+        { text: "World-class hospitality. The infinity pool at sunset is pure magic. I felt like royalty.", name: "— Elena M., London" },
+        { text: "Exceptional dining and the penthouse suite exceeded all expectations. Already planning our return.", name: "— David K., Dubai" }
+    ];
+
+    // Populate Rooms
+    function buildRooms() {
+        const container = document.getElementById('rooms-grid');
+        if(!container) return;
+        container.innerHTML = '';
+        roomData.forEach(room => {
+            const card = document.createElement('div');
+            card.className = 'room-card fade-up';
+            card.innerHTML = `
+                <img src="${room.img}" alt="${room.name} suite">
+                <h3>${room.name}</h3>
+                <div class="price">${room.price}</div>
+                <ul class="features"><li><i class="fas fa-check-circle"></i> ${room.features}</li></ul>
+                <a href="#contact" class="btn btn-outline" style="padding: 8px 20px;">Book Now</a>
+            `;
+            container.appendChild(card);
+        });
+    }
+    function buildFacilities() {
+        const container = document.getElementById('facilities-grid');
+        if(!container) return;
+        container.innerHTML = '';
+        facilitiesData.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'facility-card fade-up';
+            card.innerHTML = `
+                <img src="${f.img}" alt="${f.name}">
+                <h3><i class="${f.icon}" style="margin-right: 8px; color:#d4af7a;"></i> ${f.name}</h3>
+                <p>${f.desc}</p>
+            `;
+            container.appendChild(card);
+        });
+    }
+    function buildGallery() {
+        const container = document.getElementById('gallery-grid');
+        if(!container) return;
+        container.innerHTML = '';
+        galleryImages.forEach(src => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item fade-up';
+            item.innerHTML = `<img src="${src}" alt="Hotel gallery view" loading="lazy">`;
+            container.appendChild(item);
+        });
+    }
+
+    // Carousel
+    let currentIdx = 0;
+    let track, prevBtn, nextBtn;
+    function renderTestimonials() {
+        const trackEl = document.getElementById('testimonialTrack');
+        if(!trackEl) return;
+        trackEl.innerHTML = '';
+        testimonialsData.forEach(t => {
+            const div = document.createElement('div');
+            div.className = 'testimonial-card';
+            div.innerHTML = `<i class="fas fa-quote-right"></i><p>“${t.text}”</p><div class="guest-name">${t.name}</div>`;
+            trackEl.appendChild(div);
+        });
+        updateCarousel();
+    }
+    function updateCarousel() {
+        if(track) track.style.transform = `translateX(-${currentIdx * 100}%)`;
+    }
+    function nextSlide() { currentIdx = (currentIdx + 1) % testimonialsData.length; updateCarousel(); }
+    function prevSlide() { currentIdx = (currentIdx - 1 + testimonialsData.length) % testimonialsData.length; updateCarousel(); }
+
+    // Particles effect (premium shimmer)
+    function initParticles() {
+        const canvas = document.getElementById('particle-canvas');
+        if(!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const PARTICLE_COUNT = 130;
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        function createParticles() {
+            particles = [];
+            for(let i=0;i<PARTICLE_COUNT;i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    radius: Math.random() * 2.2 + 0.8,
+                    alpha: Math.random() * 0.5 + 0.2,
+                    speedX: (Math.random() - 0.5) * 0.25,
+                    speedY: (Math.random() - 0.5) * 0.15 + 0.05,
+                });
+            }
+        }
+        function draw() {
+            if(!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            for(let p of particles) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+                ctx.fillStyle = `rgba(212, 175, 122, ${p.alpha * 0.6})`;
+                ctx.fill();
+            }
+            for(let p of particles) {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if(p.x < 0) p.x = width;
+                if(p.x > width) p.x = 0;
+                if(p.y < 0) p.y = height;
+                if(p.y > height) p.y = 0;
+            }
+            requestAnimationFrame(draw);
+        }
+        window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
+        resizeCanvas();
+        createParticles();
+        draw();
+    }
+
+    // Scroll reveal observer
+    function initScrollReveal() {
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        fadeElements.forEach(el => observer.observe(el));
+        // manually add fade-up class to dynamic cards after building
+        const newCards = document.querySelectorAll('.room-card, .facility-card, .gallery-item');
+        newCards.forEach(card => {
+            card.classList.add('fade-up');
+            observer.observe(card);
+        });
+    }
+
+    // Smooth navigation for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if(targetId === "#" || targetId === "") return;
+            const target = document.querySelector(targetId);
+            if(target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Initialize everything
+    function init() {
+        buildRooms();
+        buildFacilities();
+        buildGallery();
+        renderTestimonials();
+        track = document.getElementById('testimonialTrack');
+        prevBtn = document.getElementById('prevBtn');
+        nextBtn = document.getElementById('nextBtn');
+        if(prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+        }
+        initParticles();
+        setTimeout(() => {
+            initScrollReveal();
+            document.querySelectorAll('.fade-up').forEach(el => {
+                if(el.getBoundingClientRect().top < window.innerHeight-100) el.classList.add('visible');
+            });
+        }, 200);
+    }
+    init();
+    // Extra: dynamic observer for later added cards
+    const observerForCards = new MutationObserver(() => {
+        document.querySelectorAll('.room-card, .facility-card, .gallery-item').forEach(c => {
+            if(!c.classList.contains('fade-up')) c.classList.add('fade-up');
+        });
+        initScrollReveal();
+    });
+    observerForCards.observe(document.body, { childList: true, subtree: true });
+</script>
+</body>
+</html>
